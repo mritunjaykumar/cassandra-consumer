@@ -14,7 +14,7 @@ import java.util.Map;
 
 @EnableKafka
 @Configuration
-public class ConsumerFiguration {
+public class ConsumerConfiguration {
 
     @Bean
     public Map<String, Object> consumerProperties(){
