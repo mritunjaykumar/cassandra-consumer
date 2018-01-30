@@ -18,8 +18,12 @@ import java.util.concurrent.CountDownLatch;
 
 @Component
 public class Listener {
-    @Autowired
     MetricsRepository metricsRepository;
+
+    @Autowired
+    public Listener(MetricsRepository metricsRepository){
+        this.metricsRepository = metricsRepository;
+    }
 
     private static final Logger LOGGER =
             LoggerFactory.getLogger(Listener.class);
