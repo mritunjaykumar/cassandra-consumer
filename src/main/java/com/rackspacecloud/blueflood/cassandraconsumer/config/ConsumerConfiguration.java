@@ -1,5 +1,7 @@
 package com.rackspacecloud.blueflood.cassandraconsumer.config;
 
+import com.datastax.driver.core.Cluster;
+import com.datastax.driver.core.Session;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +23,15 @@ public class ConsumerConfiguration {
 
     @Value("${consumer.group}")
     private String consumerGroup;
+
+    @Value("${cassandra.keyspace-name}")
+    String keyspaceName;
+
+    @Value("${cassandra.contact-points}")
+    String contactPoints;
+
+    @Value("${cassandra.port}")
+    int port;
 
     @Bean
     public Map<String, Object> consumerProperties(){
@@ -49,5 +60,11 @@ public class ConsumerConfiguration {
         factory.setConsumerFactory(consumerFactory());
 
         return factory;
+    }
+
+    @Bean
+    public Session session() {
+        Cluster cluster = Cluster.builder().addContactPoints(contactPoints).withPort(port).build();
+        return cluster.connect(keyspaceName);
     }
 }
